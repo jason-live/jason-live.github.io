@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>npm命令行工具学习笔记（1）– 我的第一个命令 | Jason的生活方式</title>
+  <meta name="description" content="在开发大型项目的时候，有时候在代码解耦层面会出现很多通用且无耦合性的组件、模块包等，这时需要将这些公共的部分提取出来在几个或者开源出来。本文就为介绍如何开发一个公共模块包 开发公共模块包需要开发者掌握几个概念  nodejs命令行是如何工作的 npm包是如何发布的 github是如何使用的 如何更好的管理开发版本  因本文不是基础教程，故在这里不介绍nodejs、npm、github的基础使用方式">
+<meta name="keywords" content="wci-cli,npm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="npm命令行工具学习笔记（1）– 我的第一个命令">
+<meta property="og:url" content="https://jason-live.github.io/2018/01/11/npm-command-01-md/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在开发大型项目的时候，有时候在代码解耦层面会出现很多通用且无耦合性的组件、模块包等，这时需要将这些公共的部分提取出来在几个或者开源出来。本文就为介绍如何开发一个公共模块包 开发公共模块包需要开发者掌握几个概念  nodejs命令行是如何工作的 npm包是如何发布的 github是如何使用的 如何更好的管理开发版本  因本文不是基础教程，故在这里不介绍nodejs、npm、github的基础使用方式">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/az.png">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/sy.png">
+<meta property="og:updated_time" content="2018-01-11T14:41:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="npm命令行工具学习笔记（1）– 我的第一个命令">
+<meta name="twitter:description" content="在开发大型项目的时候，有时候在代码解耦层面会出现很多通用且无耦合性的组件、模块包等，这时需要将这些公共的部分提取出来在几个或者开源出来。本文就为介绍如何开发一个公共模块包 开发公共模块包需要开发者掌握几个概念  nodejs命令行是如何工作的 npm包是如何发布的 github是如何使用的 如何更好的管理开发版本  因本文不是基础教程，故在这里不介绍nodejs、npm、github的基础使用方式">
+<meta name="twitter:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/az.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://jason-live.github.io/2018/01/11/npm-command-01-md/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/jason-live" target="_blank">
+          <img class="img-circle img-rotate" src="/images/jason.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Jason</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> 南京, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <!-- <span class="ins-close ins-selectable"><i class="fa fa-times"></i></span> -->
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/./">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository/">
+            
+            <i class="fa fa-fw fa-code"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books/">
+            
+            <i class="fa fa-fw fa-leanpub"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links/">
+            
+            <i class="fa fa-fw fa-gg"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/jason-live" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="fa fa-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="fa fa-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <p>您好，您是第<span id="busuanzi_value_site_uv">0</span>位访客</p>
+            
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/npm系列教程/">npm系列教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react系列教程/">react系列教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活随笔系列/">生活随笔系列</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant-design/">ant design</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wci-cli/">wci-cli</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端工程化/">前端工程化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ant-design/" style="font-size: 13px;">ant design</a> <a href="/tags/hexo/" style="font-size: 14px;">hexo</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/wci-cli/" style="font-size: 13px;">wci-cli</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/前端工程化/" style="font-size: 13px;">前端工程化</a> <a href="/tags/随笔/" style="font-size: 13px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/react系列教程/">react系列教程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/26/webpack-react-01/" class="title">webpack全家桶+react全家桶项目实战[1]-项目准备</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-26T01:29:46.000Z" itemprop="datePublished">2018-02-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/生活随笔系列/">生活随笔系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/04/essays-2018-01/" class="title">2018我的学习分享路线</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-04T05:08:09.000Z" itemprop="datePublished">2018-02-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/npm系列教程/">npm系列教程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/01/11/npm-command-01-md/" class="title">npm命令行工具学习笔记（1）– 我的第一个命令</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-11T14:35:11.000Z" itemprop="datePublished">2018-01-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/28/hexo-03/" class="title">hexo 个人博客工具使用教程（3）-- pure主题个性化配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-28T04:44:42.000Z" itemprop="datePublished">2017-12-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/28/hexo-02/" class="title">hexo 个人博客工具使用教程（2）-- 选择一个主题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-28T01:52:46.000Z" itemprop="datePublished">2017-12-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#npm包结构"><span class="toc-number">1.</span> <span class="toc-text">npm包结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正式开始前的准备"><span class="toc-number">2.</span> <span class="toc-text">正式开始前的准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化项目"><span class="toc-number">3.</span> <span class="toc-text">初始化项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我的第一个命令"><span class="toc-number">4.</span> <span class="toc-text">我的第一个命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用命令"><span class="toc-number">5.</span> <span class="toc-text">使用命令</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-npm-command-01-md" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      npm命令行工具学习笔记（1）– 我的第一个命令
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2018/01/11/npm-command-01-md/" class="article-date">
+	  <time datetime="2018-01-11T14:35:11.000Z" itemprop="datePublished">2018-01-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/npm系列教程/">npm系列教程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/npm/">npm</a>, <a class="article-tag-link" href="/tags/wci-cli/">wci-cli</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="fa fa-eye" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2018/01/11/npm-command-01-md/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,041(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+      
+      <div class="toggle-toc hidden-xs" data-stick-top>
+        <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+          <i class="text-collapsed fa fa-anchor"></i>
+          <i class="text-in fa fa-close"></i>
+        </a>
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>在开发大型项目的时候，有时候在代码解耦层面会出现很多通用且无耦合性的组件、模块包等，这时需要将这些公共的部分提取出来在几个或者开源出来。本文就为介绍如何开发一个公共模块包</p>
+<p>开发公共模块包需要开发者掌握几个概念</p>
+<ol>
+<li>nodejs命令行是如何工作的</li>
+<li>npm包是如何发布的</li>
+<li>github是如何使用的</li>
+<li>如何更好的管理开发版本</li>
+</ol>
+<p>因本文不是基础教程，故在这里不介绍nodejs、npm、github的基础使用方式</p>
+<h3 id="npm包结构"><a href="#npm包结构" class="headerlink" title="npm包结构"></a>npm包结构</h3><p>npm包实际是一个存档文件，即一个目录直接打包为.zip或tar.gz格式的文件，安装后解压还原为目录。完全符合CommonJS规范的包目录应该包含如下这些文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">package.json : 包描述文件。</span><br><span class="line">bin: 用于存放可执行二进制文件的目录。</span><br><span class="line">lib：用于存放javascript代码的目录。</span><br><span class="line">doc：用于存放文档的目录。</span><br><span class="line">test: 用于存放单元测试用例的代码。</span><br></pre></td></tr></table></figure></p>
+<p>我们开发npm包模块的时候，就可以按照以上目录结构，进行开发</p>
+<h3 id="正式开始前的准备"><a href="#正式开始前的准备" class="headerlink" title="正式开始前的准备"></a>正式开始前的准备</h3><ul>
+<li><p>注册github</p>
+<blockquote>
+<p>虽然npm包开发版本管理可以不依赖github，但目前社区基本采用github+npm同时管理代码的方式，注册好自己的github后，在github上创建一个项目，博主在这里以wci-cli为例说明</p>
+</blockquote>
+</li>
+<li><p>注册npm</p>
+<blockquote>
+<p>可以通过官网注册，也可以通过命令行注册，命令行注册方式我们后面会说明</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h3><ul>
+<li>初始化npm项目</li>
+</ul>
+<p>在github创建项目wci-cli,使用<code>git clone</code>下载至本地，进入wci-cli项目，使用下述命令，在命令行一键回车到底</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+<p>生成package.json文件，内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;wci-cli&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;author&quot;: &quot;jasonlive&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改package.json文件如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;wci-cli&quot;, ## 项目名称</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;, ## 项目版本</span><br><span class="line">  &quot;description&quot;: &quot;webpack、react、redux、react-router、antd&quot;, ## 项目描述</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;, ## 入口文件</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;, ## 项目可执行脚本</span><br><span class="line">  &quot;repository&quot;: &#123;</span><br><span class="line">    &quot;type&quot;: &quot;git&quot;,</span><br><span class="line">    &quot;url&quot;: &quot;git+https://github.com/jason-live/wci-cli.git&quot;</span><br><span class="line">  &#125;, ## 项目代码存放目录，一般为github目录地址</span><br><span class="line">  &quot;author&quot;: &quot;jasonlive&quot;, ## 项目拥有着</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;bin&quot;: &#123;</span><br><span class="line">    &quot;wci&quot;: &quot;./bin/wci&quot;</span><br><span class="line">  &#125;, ## 项目可执行bash命令</span><br><span class="line">  &quot;bugs&quot;: &#123;</span><br><span class="line">    &quot;url&quot;: &quot;https://github.com/jason-live/wci-cli/issues&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;homepage&quot;: &quot;https://github.com/jason-live/wci-cli#readme&quot;, ## 项目说明路径，一般为github上的README.md文件</span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125; ## 项目依赖</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在项目目录下创建如下文件|文件夹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bin ## 可执行文件目录</span><br><span class="line">lib ## 打包的代码目录</span><br><span class="line">src ## 源码目录</span><br><span class="line">doc ## 文档目录</span><br><span class="line">boilerplates ## 模版文件目录</span><br><span class="line">.gitignore ## 忽略文件，npm会默认识别这个文件</span><br></pre></td></tr></table></figure></p>
+<h3 id="我的第一个命令"><a href="#我的第一个命令" class="headerlink" title="我的第一个命令"></a>我的第一个命令</h3><p>在bin目录下，新建wci文件，修改文件权限<code>chmod 755 wci</code>，加入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env node</span><br><span class="line"></span><br><span class="line">console.log(&apos;hello world&apos;);</span><br><span class="line"></span><br><span class="line">if (process.argv.slice(2).join(&apos;&apos;) === &apos;-v&apos;) &#123;</span><br><span class="line">  console.log(&apos;wci-cli: &apos; + require(&apos;../package&apos;).version);</span><br><span class="line">  return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>保存提交至github，提交至npm，文章前面提到注册npm可以两种方式，因博主之前注册过npm账号，故这里采用<code>npm login</code>方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm login</span><br><span class="line">Username: jasonlive</span><br><span class="line">Password:</span><br><span class="line">Email: (this IS public) 15161461631@139.com</span><br><span class="line">Logged in as jasonlive on https://registry.npmjs.org/.</span><br></pre></td></tr></table></figure></p>
+<p>填写用户名、密码、邮箱，登录后，使用<code>npm who am i</code>查看是否登录成功，使用<code>npm publish</code>，即可将代码提交至npm</p>
+<h3 id="使用命令"><a href="#使用命令" class="headerlink" title="使用命令"></a>使用命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g wci-cli ## 从npm上安装自己的npm包</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xr3o7.com1.z0.glb.clouddn.com/az.png" alt=""><br>显示安装成功，使用<code>wci|wci -v</code><br><img src="http://7xr3o7.com1.z0.glb.clouddn.com/sy.png" alt=""><br>出现如下提示，说明可以使用<br>讲到这里，我们之前新建的项目目录结构大部分还未使用，我们将在后续文章中继续为大家讲解，并带着大家一步步构建一个可以使用的npm命令行工具</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://jason-live.github.io/2018/01/11/npm-command-01-md/" title="npm命令行工具学习笔记（1）– 我的第一个命令" target="_blank" rel="external">https://jason-live.github.io/2018/01/11/npm-command-01-md/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/jason-live" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/jason.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/jason-live" target="_blank"><span class="text-dark">Jason</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMjczOC85Mjk5">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/02/04/essays-2018-01/" title="2018我的学习分享路线"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/28/hexo-03/" title="hexo 个人博客工具使用教程（3）-- pure主题个性化配置">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="weibo,qq,wechat,douban,facebook,twitter,google" data-mobile-sites="weibo,qq,wechat,douban,facebook,twitter,google"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/jason-live" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="fa fa-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="fa fa-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 JasonLive
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+<script defer src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>

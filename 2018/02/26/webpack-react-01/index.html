@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>webpack全家桶+react全家桶项目实战[1]-项目准备 | Jason的生活方式</title>
+  <meta name="description" content="项目开始前，我们先聊一聊关于项目的一些说明。该项目起始于2017年初，当时公司主要技术栈为gulp+angular，鉴于react的火热的生态，在公司决定研发bss管理系统时选用react开发，目的也是为react native打下基础，以解决后期公司大前端技术栈的逐步成熟。（当时没有选择vue开发的主要原因是weex生态还不够特别成熟），既然决定换新，项目的构建也跟着一起换，从gulp转向火热的">
+<meta name="keywords" content="webpack,react,ant design,前端工程化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack全家桶+react全家桶项目实战[1]-项目准备">
+<meta property="og:url" content="https://jason-live.github.io/2018/02/26/webpack-react-01/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="项目开始前，我们先聊一聊关于项目的一些说明。该项目起始于2017年初，当时公司主要技术栈为gulp+angular，鉴于react的火热的生态，在公司决定研发bss管理系统时选用react开发，目的也是为react native打下基础，以解决后期公司大前端技术栈的逐步成熟。（当时没有选择vue开发的主要原因是weex生态还不够特别成熟），既然决定换新，项目的构建也跟着一起换，从gulp转向火热的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100027@2x.png">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100339@2x.png">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100436@2x.png">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-103612@2xtest.png">
+<meta property="og:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-103524@2xdist.png">
+<meta property="og:updated_time" content="2018-02-26T01:31:42.212Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack全家桶+react全家桶项目实战[1]-项目准备">
+<meta name="twitter:description" content="项目开始前，我们先聊一聊关于项目的一些说明。该项目起始于2017年初，当时公司主要技术栈为gulp+angular，鉴于react的火热的生态，在公司决定研发bss管理系统时选用react开发，目的也是为react native打下基础，以解决后期公司大前端技术栈的逐步成熟。（当时没有选择vue开发的主要原因是weex生态还不够特别成熟），既然决定换新，项目的构建也跟着一起换，从gulp转向火热的">
+<meta name="twitter:image" content="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100027@2x.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://jason-live.github.io/2018/02/26/webpack-react-01/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/jason-live" target="_blank">
+          <img class="img-circle img-rotate" src="/images/jason.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Jason</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> 南京, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <!-- <span class="ins-close ins-selectable"><i class="fa fa-times"></i></span> -->
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/./">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository/">
+            
+            <i class="fa fa-fw fa-code"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books/">
+            
+            <i class="fa fa-fw fa-leanpub"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links/">
+            
+            <i class="fa fa-fw fa-gg"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/jason-live" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="fa fa-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="fa fa-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <p>您好，您是第<span id="busuanzi_value_site_uv">0</span>位访客</p>
+            
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/npm系列教程/">npm系列教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react系列教程/">react系列教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活随笔系列/">生活随笔系列</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ant-design/">ant design</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wci-cli/">wci-cli</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端工程化/">前端工程化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ant-design/" style="font-size: 13px;">ant design</a> <a href="/tags/hexo/" style="font-size: 14px;">hexo</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/wci-cli/" style="font-size: 13px;">wci-cli</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/前端工程化/" style="font-size: 13px;">前端工程化</a> <a href="/tags/随笔/" style="font-size: 13px;">随笔</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/react系列教程/">react系列教程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/26/webpack-react-01/" class="title">webpack全家桶+react全家桶项目实战[1]-项目准备</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-26T01:29:46.000Z" itemprop="datePublished">2018-02-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/生活随笔系列/">生活随笔系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/04/essays-2018-01/" class="title">2018我的学习分享路线</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-04T05:08:09.000Z" itemprop="datePublished">2018-02-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/npm系列教程/">npm系列教程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/01/11/npm-command-01-md/" class="title">npm命令行工具学习笔记（1）– 我的第一个命令</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-11T14:35:11.000Z" itemprop="datePublished">2018-01-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/28/hexo-03/" class="title">hexo 个人博客工具使用教程（3）-- pure主题个性化配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-28T04:44:42.000Z" itemprop="datePublished">2017-12-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/个人博客搭建系列/">个人博客搭建系列</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/28/hexo-02/" class="title">hexo 个人博客工具使用教程（2）-- 选择一个主题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-28T01:52:46.000Z" itemprop="datePublished">2017-12-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#我们要做什么"><span class="toc-number">1.</span> <span class="toc-text">我们要做什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#技术栈"><span class="toc-number">1.0.1.</span> <span class="toc-text">技术栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#准备"><span class="toc-number">1.0.2.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决什么问题"><span class="toc-number">1.0.3.</span> <span class="toc-text">解决什么问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#通用问题"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">通用问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#其他问题"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">其他问题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#还有什么问题要解决"><span class="toc-number">1.0.4.</span> <span class="toc-text">还有什么问题要解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#希望"><span class="toc-number">1.0.5.</span> <span class="toc-text">希望</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目准备"><span class="toc-number">2.</span> <span class="toc-text">项目准备</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-webpack-react-01" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack全家桶+react全家桶项目实战[1]-项目准备
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2018/02/26/webpack-react-01/" class="article-date">
+	  <time datetime="2018-02-26T01:29:46.000Z" itemprop="datePublished">2018-02-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/react系列教程/">react系列教程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/ant-design/">ant design</a>, <a class="article-tag-link" href="/tags/react/">react</a>, <a class="article-tag-link" href="/tags/webpack/">webpack</a>, <a class="article-tag-link" href="/tags/前端工程化/">前端工程化</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="fa fa-eye" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2018/02/26/webpack-react-01/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,763(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
+	
+
+      </div>
+      
+      <div class="toggle-toc hidden-xs" data-stick-top>
+        <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+          <i class="text-collapsed fa fa-anchor"></i>
+          <i class="text-in fa fa-close"></i>
+        </a>
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>项目开始前，我们先聊一聊关于项目的一些说明。该项目起始于2017年初，当时公司主要技术栈为gulp+angular，鉴于react的火热的生态，在公司决定研发bss管理系统时选用react开发，目的也是为react native打下基础，以解决后期公司大前端技术栈的逐步成熟。（当时没有选择vue开发的主要原因是weex生态还不够特别成熟），既然决定换新，项目的构建也跟着一起换，从gulp转向火热的webpack，持续大半年的更新迭代，我们将构建模块逐步从项目中抽离出来，把构建模块作为npm包单独管理，完成和项目代码解耦，于是就有了后面我们要说的<a href="https://www.npmjs.com/package/wci-build" target="_blank" rel="noopener">wci-build</a>构建模块包和<a href="https://www.npmjs.com/package/wci-cli" target="_blank" rel="noopener">wci-cli</a>项目脚手架。</p>
+<h2 id="我们要做什么"><a href="#我们要做什么" class="headerlink" title="我们要做什么"></a>我们要做什么</h2><h4 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h4><p>项目采用前后端分离的形式，后端选用Maven+SpringClould全家桶开发，前端选用webpack+react全家桶开发，前后端全部采用包管理工具完全解决项目依赖管理的难题，版本管理采用git，前后端通过json交互，swgger管理接口文档，接口全部遵循restful规范。由于本文面向社区开放，故本文中不涉及公司业务层的代码，本文全部代码均为最新编写，我们以一个旅游管理系统的三个模块为大家演示项目（登陆登出、用户模块、景点模块）。为了快速开展，本文涉及的后端代码直接采用Java的SSM框架搭建，源码也将为大家奉上。朋友们也可以使用mock模拟接口数据。后期我们在演示nodejs+espress时将接口代码全部转为node形式。</p>
+<h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>因本文不是讲解基础，故大家在敲代码前，还需要具备一定的前端基础，部分如下</p>
+<ol>
+<li>html、css、javascript基础知识</li>
+<li>es6基础知识</li>
+<li>react基础知识</li>
+<li>了解什么是webpack、babel、redux、react-router、nodejs、npm</li>
+<li>熟悉蚂蚁金服ant design</li>
+<li>熟悉less基本使用</li>
+</ol>
+<h4 id="解决什么问题"><a href="#解决什么问题" class="headerlink" title="解决什么问题"></a>解决什么问题</h4><p>本项目集成了最新的react16、react-router4、redux，同时可以选择性集成antd|antd mobile，在解决繁琐的架构配置工作外，还解决了以下问题</p>
+<h5 id="通用问题"><a href="#通用问题" class="headerlink" title="通用问题"></a>通用问题</h5><ol>
+<li>支持开发效率更高的ES6编写代码。</li>
+<li>拆分开发、测试、生产环境，完成从开发到上线的所有工作。</li>
+<li>开发环境包含热替换，本地IP、端口可配置，接口可配置，微服务模块可配置</li>
+<li>测试环境包含代码压缩、合并、css抽离、公共组件抽离、代码添加hash、测试版本后缀</li>
+<li>生产环境包含代码压缩、合并、css抽离、公共组件抽离、代码添加hash、生产版本后缀（和测试代码完全一样，只缺少测试版本号）</li>
+<li>支持自定义添加webpack loader</li>
+</ol>
+<h5 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h5><ol>
+<li>目前大型项目后端多采用微服务架构，API接口在开发、测试、生产环境下来回切换，需要频繁修改代码。解决方案：通过配置文件的方式统一配置项目模块接口</li>
+<li>项目模块在分拆开发的过程中css命名冲突，导致代码维护性较差。解决方案：构建工具预加载css时自动化添加hash，使css代码模块化</li>
+<li>不同开发人员，不同的代码习惯造成项目代码难以维护。解决方案：在代码编写、构建、版本管理三个方向加入代码规范校验（airbnb规范）</li>
+<li>在同时开发多个系统的时候，构建业务模块在不同的项目都存在，当需要修改配置或者优化构建方案的时候，需要修改多个项目的配置。解决方案：抽离构建模块，采用npm形式依赖。</li>
+</ol>
+<h4 id="还有什么问题要解决"><a href="#还有什么问题要解决" class="headerlink" title="还有什么问题要解决"></a>还有什么问题要解决</h4><p>虽然经过大半年迭代，但我们还需要在实际项目开发中支持更多的个性化需求</p>
+<ol>
+<li>cdn自动化</li>
+<li>更加完善的持续集成</li>
+<li>单元测试，包括代码，交互测试</li>
+<li>mock数据，实现前后端真正0接触</li>
+<li>…</li>
+</ol>
+<h4 id="希望"><a href="#希望" class="headerlink" title="希望"></a>希望</h4><p>大家在开发过程中遇到任何问题，希望可以给我们留言，我们会不断优化项目。未来，我们还会加入mobx、rxjs、immutablejs、GraphQL等，也希望在和大家的探讨中，持续进步。</p>
+<h2 id="项目准备"><a href="#项目准备" class="headerlink" title="项目准备"></a>项目准备</h2><p>本项目基础环境必须依赖<a href="http://nodejs.cn/" target="_blank" rel="noopener">nodejs</a>和<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a>,未安装的朋友可以去官网自行安装，安装教程这里不详细说明，安装完成后使用如下命令，查看是否安装成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>####初始化项目<br>本项目我们使用<a href="https://www.npmjs.com/package/wci-cli" target="_blank" rel="noopener">wci-cli</a>脚手架初始化项目</p>
+<ul>
+<li>全局安装wci-cli</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g wci-cli</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建项目<br>wci-cli 脚手架可以创建三种项目，分别是1.纯净的react项目 2.包含antd的react项目 3.包含antd-mobile的react项目，命令如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wci new myapp</span><br></pre></td></tr></table></figure>
+<p>执行命令后，命令行会提示是否需要安装antd以及选择antd类型，即可完成项目初始化，如下</p>
+<p><img src="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100027@2x.png" alt=""></p>
+<p>项目目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">myapp</span><br><span class="line">├── app // 项目业务代码</span><br><span class="line">│   ├── assets // 静态文件目录（图片、字体等）</span><br><span class="line">│   ├── script // js代码目录</span><br><span class="line">│   │   ├── actions // redux action目录</span><br><span class="line">│   │   ├── componets // react 无状态组件目录</span><br><span class="line">│   │   ├── containers // react 业务代码</span><br><span class="line">│   │   ├── reducers // redux reducer目录</span><br><span class="line">│   │   ├── util // 工具包目录</span><br><span class="line">│   │   │   ├── theme.js // antd自定义样式文件</span><br><span class="line">│   │   ├── Home.js // 首页</span><br><span class="line">│   │   ├── home.less // 首页样式</span><br><span class="line">│   ├── styles // 全局样式目录</span><br><span class="line">│   ├── index.js // 项目入口文件</span><br><span class="line">│   ├── index.tpl.html // 项目html模版</span><br><span class="line">├── node_modules // 依赖包目录</span><br><span class="line">├── .babelrc // babel配置文件</span><br><span class="line">├── .eslintrc // eslint代码校验配置文件</span><br><span class="line">├── .gitignore</span><br><span class="line">├── package.json</span><br><span class="line">├── README.md</span><br><span class="line">├── wci.json // wci项目配置文件（主要配置一些开发、测试、生产环境的信息）</span><br><span class="line">└── webpack.js // webpack自定义配置文件</span><br></pre></td></tr></table></figure>
+<p>执行如下命令，运行开发环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd myapp</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100339@2x.png" alt=""></p>
+<p><img src="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-100436@2x.png" alt=""></p>
+<p>如上图，我们的项目已经跑起来了…</p>
+<ul>
+<li>测试、发布<br>因我们需要保证测试代码和生产代码必须保持一致，所有在实际项目中，我们可以运行如下命令构建代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run test // 测试环境打包</span><br><span class="line">npm run dist // 生产环境打包</span><br></pre></td></tr></table></figure>
+<p>测试代码<br><img src="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-103612@2xtest.png" alt=""></p>
+<p>生产代码<br><img src="http://7xr3o7.com1.z0.glb.clouddn.com/QQ20180225-103524@2xdist.png" alt=""></p>
+<p>到这里，我们已经完成项目前期开发的所有准备工作，接下来，我们一起开始撸代码吧</p>
+<blockquote>
+<p>项目结束后，我会为大家奉上两篇彩蛋，分别是 1. 一步步搭建webpack前端构建工具并抽成npm单独模块 2. 一步步构建自己的npm开发包并且以一个真实例子演示（开发一个命令行生成文件夹结构的小工具）</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://jason-live.github.io/2018/02/26/webpack-react-01/" title="webpack全家桶+react全家桶项目实战[1]-项目准备" target="_blank" rel="external">https://jason-live.github.io/2018/02/26/webpack-react-01/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/jason-live" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/jason.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/jason-live" target="_blank"><span class="text-dark">Jason</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMjczOC85Mjk5">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2018/02/04/essays-2018-01/" title="2018我的学习分享路线">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="weibo,qq,wechat,douban,facebook,twitter,google" data-mobile-sites="weibo,qq,wechat,douban,facebook,twitter,google"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/jason-live" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="fa fa-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="fa fa-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 JasonLive
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+<script defer src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>
